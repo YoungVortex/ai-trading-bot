@@ -3,7 +3,15 @@ import pandas as pd
 import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
-import cv2
+
+# Try to import OpenCV (only needed for image loading)
+try:
+    import cv2
+    _HAS_CV2 = True
+except ImportError:
+    _HAS_CV2 = False
+    print("Warning: opencv-python not installed. Image loading disabled.")
+
 from config import *
 
 class OHLCVDataset(Dataset):
@@ -53,6 +61,8 @@ def create_dataloader(csv_path, batch_size=BATCH_SIZE, train=True):
 
 def load_image(image_path):
     """Load and preprocess chart image for ViT."""
+    if not _HAS_CV2:
+        raise ImportError("opencv-python required for image loading. Install with: pip install opencv-python")
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))

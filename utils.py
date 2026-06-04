@@ -4,7 +4,6 @@ import random
 
 def set_seed(seed=42):
     import torch
-    import random
     np.random.seed(seed)
     random.seed(seed)
     torch.manual_seed(seed)
