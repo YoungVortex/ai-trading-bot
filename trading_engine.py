@@ -3,6 +3,7 @@ import json
 import time
 from datetime import datetime
 from config import *
+import torch
 
 class LocalTradingEngine:
     def __init__(self, model, portfolio=None):
